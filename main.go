@@ -50,10 +50,19 @@ func checkWinner(board [3][3]string) uint8 {
 	// 1 = winner
 	// 2 = draw
 
-	if len(board) == 9 {
-		fmt.Println("Draw")
+	// Check for draw
+	draw := true
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if board[i][j] == "" {
+				draw = false
+			}
+		}
+	}
+	if draw {
 		return 2
 	}
+
 	// Check rows
 	for i := 0; i < 3; i++ {
 		if board[i][0] != "" && board[i][0] == board[i][1] && board[i][1] == board[i][2] {
@@ -112,11 +121,18 @@ func main() {
 		if checkWinner(board) == 1 {
 			fmt.Println("\033[33mPlayer 1 wins!\033[0m")
 			break
+		} else if checkWinner(board) == 2 {
+			fmt.Println("\033[33mDraw!\033[0m")
+			break
 		}
+
 		board = inputPoint(board, 2)
 		printBoard(board)
 		if checkWinner(board) == 1 {
 			fmt.Println("\033[33mPlayer 2 wins!\033[0m")
+			break
+		} else if checkWinner(board) == 2 {
+			fmt.Println("\033[33mDraw!\033[0m")
 			break
 		}
 
